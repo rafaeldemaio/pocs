@@ -3,6 +3,8 @@ server:
 
 spring:
   kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       group-id: foo-1
       auto-offset-reset: earliest

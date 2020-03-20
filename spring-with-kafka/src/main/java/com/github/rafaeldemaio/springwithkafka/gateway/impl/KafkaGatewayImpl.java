@@ -11,21 +11,21 @@ import org.springframework.stereotype.Service;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class KafkaGatewayImpl implements KafkaGateway {
+public class KafkaGatewayImpl implements KafkaGateway<User> {
 
     private static final String TOPIC = "users";
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, User> kafkaTemplate;
 
     @Override
     public void sendToKafkaTopic(User object) {
-        log.info(String.format("#### -> Producing Message -> %s", object.toString()));
-        kafkaTemplate.send(TOPIC, object.toString());
+        log.info(String.format("#### -> Producing Message -> %s", object));
+        kafkaTemplate.send(TOPIC, object);
     }
 
     @Override
     @KafkaListener(topics = TOPIC)
-    public void consumeFromKafkaTopic(String message) {
+    public void consumeFromKafkaTopic(User message) {
         log.info(String.format("#### -> Consuming Message -> %s", message));
     }
 }
